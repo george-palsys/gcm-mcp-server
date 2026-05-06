@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "gcm": {
+      "command": "node",
+      "args": ["C:/workspacce/gcm-mcp-server/src/index.js"],
+      "env": {
+        "GCM_KEYCLOAK_URL": "https://your-keycloak-server.com/auth",
+        "GCM_KEYCLOAK_REALM": "guardium",
+        "GCM_CLIENT_ID": "your-client-id",
+        "GCM_CLIENT_SECRET": "your-client-secret",
+        "GCM_URL": "https://your-gcm-server.com",
+        "GCM_USERNAME": "your-username",
+        "GCM_PASSWORD": "your-password"
+      },
+      "timeout": 30000,
+      "trust": false
+    }
+  }
+}
