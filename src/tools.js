@@ -1,6 +1,7 @@
 /**
  * GCM MCP Tools Definitions
- * Based on IBM Guardium Cryptography Manager API
+ * Based on IBM Guardium Cryptography Manager API v2.0.1.0
+ * Updated with correct API endpoints from Swagger documentation
  */
 
 export const GCM_TOOLS = [
@@ -470,46 +471,54 @@ export const GCM_TOOLS = [
 
 /**
  * Map tool names to GCM API endpoints
+ * Updated based on Swagger API documentation (181 endpoints)
+ * Base URL: https://10.107.85.165:31443
+ * 
+ * Key patterns:
+ * - Most list operations use POST with request body containing filters and pagination
+ * - Asset-related endpoints use pattern: /api/v1/assets/{asset_category}/{asset_type}
+ * - Certificate operations use: /api/v1/certificate/*
+ * - Dashboard endpoints: /api/v1/dashboard/*
  */
 export const TOOL_ENDPOINT_MAP = {
-  // Certificates
-  "list_certificates": { method: "GET", path: "/api/v1/certificates" },
-  "get_certificate": { method: "GET", path: "/api/v1/certificates/{certificate_id}" },
-  "create_certificate": { method: "POST", path: "/api/v1/certificates" },
-  "revoke_certificate": { method: "POST", path: "/api/v1/certificates/{certificate_id}/revoke" },
+  // Certificates - Using actual GCM API paths
+  "list_certificates": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
+  "get_certificate": { method: "GET", path: "/api/v1/certificate/get-cert-details" },
+  "create_certificate": { method: "POST", path: "/api/v1/certificate/selfSigned" },
+  "revoke_certificate": { method: "DELETE", path: "/api/v1/certificate/delete" },
   
-  // Policies
-  "list_policies": { method: "GET", path: "/api/v1/policies" },
+  // Policies - Using actual GCM API paths
+  "list_policies": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
   "get_policy": { method: "GET", path: "/api/v1/policies/{policy_id}" },
-  "list_policy_violations": { method: "GET", path: "/api/v1/policy-violations" },
-  "get_policy_violation": { method: "GET", path: "/api/v1/policy-violations/{violation_id}" },
-  "acknowledge_violation": { method: "POST", path: "/api/v1/policy-violations/{violation_id}/acknowledge" },
+  "list_policy_violations": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
+  "get_policy_violation": { method: "GET", path: "/api/v1/violations/{violation_id}" },
+  "acknowledge_violation": { method: "POST", path: "/api/v1/violations/{violation_id}/acknowledge" },
   
-  // IT Assets
-  "list_it_assets": { method: "GET", path: "/api/v1/assets" },
-  "get_it_asset": { method: "GET", path: "/api/v1/assets/{asset_id}" },
-  "count_it_assets": { method: "GET", path: "/api/v1/assets/count" },
+  // IT Assets - Using actual GCM API paths with POST method
+  "list_it_assets": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
+  "get_it_asset": { method: "POST", path: "/api/v1/assets/details/{asset_category}" },
+  "count_it_assets": { method: "GET", path: "/api/v1/assets/count/vulnerable_crypto_objects" },
   
-  // Crypto Objects
-  "list_crypto_objects": { method: "GET", path: "/api/v1/crypto-objects" },
-  "get_crypto_object": { method: "GET", path: "/api/v1/crypto-objects/{object_id}" },
-  "create_crypto_key": { method: "POST", path: "/api/v1/crypto-objects/keys" },
+  // Crypto Objects - Using actual GCM API paths
+  "list_crypto_objects": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
+  "get_crypto_object": { method: "POST", path: "/api/v1/assets/details/crypto_objects/{asset_type}" },
+  "create_crypto_key": { method: "POST", path: "/api/v1/symmetric-key/{uuid}" },
   
-  // Vaults
-  "list_vaults": { method: "GET", path: "/api/v1/vaults" },
-  "get_vault": { method: "GET", path: "/api/v1/vaults/{vault_id}" },
-  "create_vault": { method: "POST", path: "/api/v1/vaults" },
+  // Vaults - Using actual GCM API paths
+  "list_vaults": { method: "GET", path: "/api/v1/certificate/vault-details" },
+  "get_vault": { method: "GET", path: "/api/v1/certificate/vault-details" },
+  "create_vault": { method: "POST", path: "/api/v1/certificate/vault-details" },
   
-  // Discovery
-  "run_crypto_discovery": { method: "POST", path: "/api/v1/discovery/scan" },
-  "get_discovery_results": { method: "GET", path: "/api/v1/discovery/scans/{scan_id}" },
-  "get_crypto_inventory": { method: "GET", path: "/api/v1/inventory" },
+  // Discovery - Using actual GCM API paths
+  "run_crypto_discovery": { method: "POST", path: "/api/v1/discovery/profiles/{id}/action/run" },
+  "get_discovery_results": { method: "GET", path: "/api/v1/discovery/runs/{run_id}" },
+  "get_crypto_inventory": { method: "POST", path: "/api/v1/assets/{asset_category}/{asset_type}" },
   
-  // Compliance
-  "get_compliance_report": { method: "GET", path: "/api/v1/compliance/report" },
-  "get_risk_assessment": { method: "GET", path: "/api/v1/risk-assessment" },
+  // Compliance - Using actual GCM API paths
+  "get_compliance_report": { method: "GET", path: "/api/v1/dashboard/compliance-posture" },
+  "get_risk_assessment": { method: "GET", path: "/api/v1/dashboard/crypto-posture" },
   
-  // Audit
-  "get_audit_logs": { method: "GET", path: "/api/v1/audit/logs" },
-  "search_audit_logs": { method: "POST", path: "/api/v1/audit/logs/search" }
+  // Audit - Using actual GCM API paths
+  "get_audit_logs": { method: "GET", path: "/api/v1/audits" },
+  "search_audit_logs": { method: "GET", path: "/api/v1/audits/{auditId}" }
 };

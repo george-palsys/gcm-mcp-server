@@ -1,4 +1,5 @@
 import axios from 'axios';
+import https from 'https';
 
 /**
  * GCM OAuth2 Authentication Client
@@ -38,7 +39,10 @@ export class GCMAuthClient {
       const response = await axios.post(tokenUrl, params, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
       });
 
       this.accessToken = response.data.access_token;
@@ -61,7 +65,10 @@ export class GCMAuthClient {
       const response = await axios.post(authUrl, {}, {
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
       });
 
       return response.data;
@@ -100,7 +107,10 @@ export class GCMAuthClient {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
       };
 
       if (data) {
